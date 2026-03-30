@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "mcp-gmpy2": {
+      "command": "mcp-gmpy2",
+      "env": {}
+    }
+  }
+}
