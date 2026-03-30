@@ -12,6 +12,18 @@ class TestBasicArithmetic:
         result = mpz("123456789012345678901234567890")
         assert result == "123456789012345678901234567890"
 
+    def test_mpq(self):
+        from mcp_gmpy2.mcp import mpq
+
+        result = mpq(numer="1", denom="3")
+        assert "1" in result and "3" in result
+
+    def test_mpfr(self):
+        from mcp_gmpy2.mcp import mpfr
+
+        result = mpfr(n="3.14", prec=53)
+        assert "3.14" in result
+
     def test_add(self):
         from mcp_gmpy2.mcp import add
 
@@ -316,3 +328,74 @@ class TestEdgeCases:
 
         result = invert(a="2", m="4")
         assert result is None
+
+    def test_very_large_numbers(self):
+        from mcp_gmpy2.mcp import add, fac
+
+        large_num = "123456789012345678901234567890"
+        result = add(a=large_num, b="1")
+        assert result == "123456789012345678901234567891"
+        result = fac(n="20")
+        assert result == "2432902008176640000"
+
+    def test_invalid_primality_input(self):
+        from mcp_gmpy2.mcp import is_prime
+
+        result = is_prime(n="1")
+        assert result is False
+        result = is_prime(n="0")
+        assert result is False
+
+    def test_negative_powmod(self):
+        from mcp_gmpy2.mcp import powmod
+
+        result = powmod(base="-2", exp="4", mod="5")
+        assert result == "1"
+
+    def test_sieve_small_limit(self):
+        from mcp_gmpy2.mcp import sieve
+
+        result = sieve(limit="2")
+        assert result == ["2"]
+
+    def test_iroot_not_perfect(self):
+        from mcp_gmpy2.mcp import iroot
+
+        result = iroot(n="10", r=2)
+        assert result == {"root": 3, "exact": False}
+
+    def test_is_square_false(self):
+        from mcp_gmpy2.mcp import is_square
+
+        result = is_square(n="10")
+        assert result is False
+
+    def test_is_power_false(self):
+        from mcp_gmpy2.mcp import is_power
+
+        result = is_power(n="10")
+        assert result is False
+
+    def test_mobius_square_free(self):
+        from mcp_gmpy2.mcp import mobius
+
+        result = mobius(n="6")
+        assert result == 1
+
+    def test_mobius_with_squared_factor(self):
+        from mcp_gmpy2.mcp import mobius
+
+        result = mobius(n="12")
+        assert result == 0
+
+    def test_tonelli_with_root(self):
+        from mcp_gmpy2.mcp import tonelli
+
+        result = tonelli(n="2", p="7")
+        assert result is not None
+
+    def test_prev_prime_3(self):
+        from mcp_gmpy2.mcp import prev_prime
+
+        result = prev_prime(n="5")
+        assert result == "3"
